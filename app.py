@@ -51,10 +51,10 @@ matches_data = {
         ("PASS LOST", 38.22, 34.02, 80.45, 30.69, None),
     ],
     "Vs Seongnam": [
-        ("PASS WON", 74.79, 19.55, 110.04, 19.22, None),
+        ("PASS WON", 74.79, 19.55, 110.04, 19.22, "videos/SG - PreAss.mp4"),
         ("PASS WON", 91.58, 66.43, 95.24, 52.30, None),
         ("PASS WON", 111.86, 56.46, 112.86, 68.76, None),
-        ("PASS WON", 117.52, 72.58, 109.21, 52.47, None),
+        ("PASS WON", 117.52, 72.58, 109.21, 52.47, "videos/SG - Ass.mp4"),
     ],
     "Vs Red Bull": [
         ("PASS WON", 78.29, 14.90, 69.14, 22.05, None),
@@ -68,7 +68,7 @@ matches_data = {
     "Vs Seattle": [
         ("PASS WON", 50.19, 10.08, 55.18, 1.93, None),
         ("PASS WON", 84.94, 60.95, 91.09, 74.41, None),
-        ("PASS WON", 76.96, 71.92, 117.68, 59.28, None),
+        ("PASS WON", 76.96, 71.92, 117.68, 59.28, "videos/ST - KP.mp4"),
     ],
 }
 
