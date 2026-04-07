@@ -14,7 +14,7 @@ from streamlit_image_coordinates import streamlit_image_coordinates
 # ==========================
 st.set_page_config(layout="wide", page_title="Pass Map Dashboard (Interactive)")
 st.title("Pass Map Dashboard")
-st.caption("Clique na bolinha no início do passe para ver o vídeo (se houver).")
+st.caption("Click on the dot at the start of a pass to watch the video (if available).")
 
 # ==========================
 # Configuration
@@ -28,47 +28,49 @@ BOX_Y_MAX = 62
 
 # ==========================
 # DATA
+# Each tuple: (type, x_start, y_start, x_end, y_end, video, label)
+# label can be: "AST" (Assist), "Pre-A" (Pre-Assist), "KP" (Key Pass), or None
 # ==========================
 matches_data = {
     "Vs Connecticut": [
-        ("PASS WON", 78.95, 35.01, 87.26, 16.06, None),
-        ("PASS WON", 94.74, 53.30, 104.05, 68.92, None),
+        ("PASS WON", 78.95, 35.01, 87.26, 16.06, None, None),
+        ("PASS WON", 94.74, 53.30, 104.05, 68.92, None, None),
 
-        ("PASS LOST", 51.19, 35.68, 72.80, 47.81, None),
-        ("PASS LOST", 60.66, 42.16, 80.28, 44.49, None),
-        ("PASS LOST", 73.80, 27.20, 92.25, 35.01, None),
-        ("PASS LOST", 77.95, 13.57, 88.76, 21.55, None),
-        ("PASS LOST", 96.74, 16.56, 105.22, 31.69, None),
-        ("PASS LOST", 48.86, 4.76, 83.44, 6.09, None),
-        ("PASS LOST", 84.27, 76.07, 107.21, 47.48, None),
+        ("PASS LOST", 51.19, 35.68, 72.80, 47.81, None, None),
+        ("PASS LOST", 60.66, 42.16, 80.28, 44.49, None, None),
+        ("PASS LOST", 73.80, 27.20, 92.25, 35.01, None, None),
+        ("PASS LOST", 77.95, 13.57, 88.76, 21.55, None, None),
+        ("PASS LOST", 96.74, 16.56, 105.22, 31.69, None, None),
+        ("PASS LOST", 48.86, 4.76, 83.44, 6.09, None, None),
+        ("PASS LOST", 84.27, 76.07, 107.21, 47.48, None, None),
     ],
     "Vs Nashville": [
-        ("PASS WON", 89.42, 33.68, 95.41, 38.34, None),
-        ("PASS WON", 118.51, 9.08, 107.38, 4.76, None),
-        ("PASS WON", 67.31, 21.71, 88.76, 22.05, None),
+        ("PASS WON", 89.42, 33.68, 95.41, 38.34, None, None),
+        ("PASS WON", 118.51, 9.08, 107.38, 4.76, None, None),
+        ("PASS WON", 67.31, 21.71, 88.76, 22.05, None, None),
 
-        ("PASS LOST", 67.48, 25.70, 98.90, 26.70, None),
-        ("PASS LOST", 38.22, 34.02, 80.45, 30.69, None),
+        ("PASS LOST", 67.48, 25.70, 98.90, 26.70, None, None),
+        ("PASS LOST", 38.22, 34.02, 80.45, 30.69, None, None),
     ],
     "Vs Seongnam": [
-        ("PASS WON", 74.79, 19.55, 110.04, 19.22, "videos/SG - PreAss.mp4"),
-        ("PASS WON", 91.58, 66.43, 95.24, 52.30, None),
-        ("PASS WON", 111.86, 56.46, 112.86, 68.76, None),
-        ("PASS WON", 117.52, 72.58, 109.21, 52.47, "videos/SG - Ass.mp4"),
+        ("PASS WON", 74.79, 19.55, 110.04, 19.22, "videos/SG - PreAss.mp4", "Pre-A"),
+        ("PASS WON", 91.58, 66.43, 95.24, 52.30, None, None),
+        ("PASS WON", 111.86, 56.46, 112.86, 68.76, None, None),
+        ("PASS WON", 117.52, 72.58, 109.21, 52.47, "videos/SG - Ass.mp4", "AST"),
     ],
     "Vs Red Bull": [
-        ("PASS WON", 78.29, 14.90, 69.14, 22.05, None),
-        ("PASS WON", 62.49, 40.83, 81.44, 14.07, None),
+        ("PASS WON", 78.29, 14.90, 69.14, 22.05, None, None),
+        ("PASS WON", 62.49, 40.83, 81.44, 14.07, None, None),
 
-        ("PASS LOST", 39.72, 44.82, 86.26, 43.82, None),
-        ("PASS LOST", 78.12, 19.89, 86.26, 24.37, None),
-        ("PASS LOST", 96.74, 11.41, 106.38, 7.75, None),
-        ("PASS LOST", 108.71, 58.95, 117.85, 44.32, None),
+        ("PASS LOST", 39.72, 44.82, 86.26, 43.82, None, None),
+        ("PASS LOST", 78.12, 19.89, 86.26, 24.37, None, None),
+        ("PASS LOST", 96.74, 11.41, 106.38, 7.75, None, None),
+        ("PASS LOST", 108.71, 58.95, 117.85, 44.32, None, None),
     ],
     "Vs Seattle": [
-        ("PASS WON", 50.19, 10.08, 55.18, 1.93, None),
-        ("PASS WON", 84.94, 60.95, 91.09, 74.41, None),
-        ("PASS WON", 76.96, 71.92, 117.68, 59.28, "videos/ST - KP.mp4"),
+        ("PASS WON", 50.19, 10.08, 55.18, 1.93, None, None),
+        ("PASS WON", 84.94, 60.95, 91.09, 74.41, None, None),
+        ("PASS WON", 76.96, 71.92, 117.68, 59.28, "videos/ST - KP.mp4", "KP"),
     ],
 }
 
@@ -79,7 +81,7 @@ dfs_by_match = {}
 for match_name, events in matches_data.items():
     dfm = pd.DataFrame(
         events,
-        columns=["type", "x_start", "y_start", "x_end", "y_end", "video"]
+        columns=["type", "x_start", "y_start", "x_end", "y_end", "video", "label"]
     )
     dfm["numero"] = np.arange(1, len(dfm) + 1)
     dfm["match"] = match_name
@@ -93,6 +95,9 @@ full_data.update(dfs_by_match)
 # Helpers
 # ==========================
 def has_video_value(v) -> bool:
+    return pd.notna(v) and str(v).strip() != ""
+
+def has_label_value(v) -> bool:
     return pd.notna(v) and str(v).strip() != ""
 
 def compute_stats(df: pd.DataFrame) -> dict:
@@ -117,12 +122,19 @@ def compute_stats(df: pd.DataFrame) -> dict:
     box_unsuccess = int((to_box & df["type"].str.contains("LOST", case=False)).sum())
     box_accuracy = (box_success / box_total * 100.0) if box_total else 0.0
 
+    # Count labels
+    assists = int(df["label"].apply(lambda v: str(v).strip().upper() == "AST" if pd.notna(v) else False).sum())
+    pre_assists = int(df["label"].apply(lambda v: str(v).strip().upper() == "PRE-A" if pd.notna(v) else False).sum())
+    key_passes = int(df["label"].apply(lambda v: str(v).strip().upper() == "KP" if pd.notna(v) else False).sum())
+
     return {
         "total_passes": total_passes,
         "successful_passes": successful,
         "unsuccessful_passes": unsuccessful,
         "accuracy_pct": round(accuracy, 2),
-        "assists": 1,
+        "assists": assists,
+        "pre_assists": pre_assists,
+        "key_passes": key_passes,
         "final_third_total": final_third_total,
         "final_third_success": final_third_success,
         "final_third_unsuccess": final_third_unsuccess,
@@ -132,6 +144,15 @@ def compute_stats(df: pd.DataFrame) -> dict:
         "box_unsuccess": box_unsuccess,
         "box_accuracy_pct": round(box_accuracy, 2),
     }
+
+# ==========================
+# Label styling
+# ==========================
+LABEL_COLORS = {
+    "AST":   "#FFD700",   # gold
+    "PRE-A": "#00BFFF",   # deep sky blue
+    "KP":    "#FF69B4",   # hot pink
+}
 
 # ==========================
 # Draw pass map
@@ -148,6 +169,7 @@ def draw_pass_map(df: pd.DataFrame, title: str):
     for _, row in df.iterrows():
         is_lost = "LOST" in row["type"].upper()
         has_vid = has_video_value(row["video"])
+        has_lbl = has_label_value(row["label"])
 
         if is_lost:
             color = (0.95, 0.18, 0.18, 0.65)
@@ -188,6 +210,29 @@ def draw_pass_map(df: pd.DataFrame, title: str):
             zorder=5,
         )
 
+        # Draw label annotation next to the start dot
+        if has_lbl:
+            lbl_text = str(row["label"]).strip()
+            lbl_color = LABEL_COLORS.get(lbl_text.upper(), "#FFFFFF")
+            ax.annotate(
+                lbl_text,
+                xy=(row["x_start"], row["y_start"]),
+                xytext=(4, 6),
+                textcoords="offset points",
+                fontsize=6.5,
+                fontweight="bold",
+                color="white",
+                ha="center",
+                va="bottom",
+                zorder=6,
+                bbox=dict(
+                    boxstyle="round,pad=0.2",
+                    facecolor=lbl_color,
+                    edgecolor="none",
+                    alpha=0.9,
+                ),
+            )
+
     ax.set_title(title, fontsize=12)
 
     legend_elements = [
@@ -199,6 +244,12 @@ def draw_pass_map(df: pd.DataFrame, title: str):
         Line2D([0], [0], marker="o", color="w",
                markerfacecolor="gray", markeredgecolor="#FFD54F",
                markeredgewidth=2, markersize=7, label="Has video"),
+        Line2D([0], [0], marker="s", color="w",
+               markerfacecolor="#FFD700", markersize=6, label="AST = Assist"),
+        Line2D([0], [0], marker="s", color="w",
+               markerfacecolor="#00BFFF", markersize=6, label="Pre-A = Pre-Assist"),
+        Line2D([0], [0], marker="s", color="w",
+               markerfacecolor="#FF69B4", markersize=6, label="KP = Key Pass"),
     ]
     legend = ax.legend(
         handles=legend_elements,
@@ -245,10 +296,10 @@ def draw_pass_map(df: pd.DataFrame, title: str):
 # ==========================
 # Sidebar
 # ==========================
-st.sidebar.header("Match selection")
+st.sidebar.header("Match Selection")
 selected_match = st.sidebar.radio("Choose the match", list(full_data.keys()), index=0)
 
-st.sidebar.header("Pass filter")
+st.sidebar.header("Pass Filter")
 pass_filter = st.sidebar.radio(
     "Filter passes",
     ["All Passes", "Successful Only", "Unsuccessful Only"],
@@ -272,11 +323,17 @@ col_stats, col_right = st.columns([1, 2], gap="large")
 with col_stats:
     st.subheader("Statistics")
 
-    c1, c2, c3, c4 = st.columns(4)
+    # Row 1: Total Passes | Successful | Accuracy
+    c1, c2, c3 = st.columns(3)
     c1.metric("Total Passes", stats["total_passes"])
     c2.metric("Successful", stats["successful_passes"])
     c3.metric("Accuracy", f'{stats["accuracy_pct"]:.1f}%')
+
+    # Row 2: Assists | Pre-Assists | Key Passes
+    c4, c5, c6 = st.columns(3)
     c4.metric("Assists", stats["assists"])
+    c5.metric("Pre-Assists", stats["pre_assists"])
+    c6.metric("Key Passes", stats["key_passes"])
 
     st.divider()
 
@@ -338,11 +395,15 @@ with col_right:
     st.subheader("Video")
 
     if selected_pass is None:
-        st.info("Clique na bolinha no início do passe para ver o vídeo (se houver).")
+        st.info("Click on the dot at the start of a pass to watch the video (if available).")
     else:
+        label_info = ""
+        if has_label_value(selected_pass.get("label")):
+            label_info = f" [{selected_pass['label']}]"
+
         st.success(
             f"Selected pass: #{int(selected_pass['numero'])} "
-            f"({selected_pass['type']}) - {selected_pass['match']}"
+            f"({selected_pass['type']}){label_info} - {selected_pass['match']}"
         )
         st.write(
             f"Start: ({selected_pass['x_start']:.2f}, {selected_pass['y_start']:.2f})  \n"
@@ -355,4 +416,4 @@ with col_right:
             except Exception:
                 st.error(f"Video file not found: {selected_pass['video']}")
         else:
-            st.warning("Não há vídeo carregado para este evento.")
+            st.warning("No video available for this event.")
